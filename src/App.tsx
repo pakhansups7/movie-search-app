@@ -60,24 +60,37 @@ function App() {
         }
     }
 
+    function handleCloseDetails() {
+        setSelectedMovieId(null);
+        setSelectedMovieDetails(null);
+        setDetailsLoading(false);
+        setDetailsError("");
+    }
+
     return (
-        <main>
+        <main onClick={handleCloseDetails}>
             <h1>Movie Search App</h1>
             {/*SearchForm сам не делает API-запрос. Он только вызывает onSearch(title). А уже App.tsx решает, что делать с этим title.*/}
-            <SearchForm
-                onSearch={handleSearch}
-            />
+            <div>
+                <SearchForm
+                    onSearch={handleSearch}
+                />
+            </div>
+
             {loading ? <p>Загрузка...</p> : null}
             {error ? <p>{error}</p> : null}
-            {hasSearched && !loading && !error ?
-                <MovieList
-                    movies={movies}
-                    onSelectMovie={handleSelectMovie}
-                    selectedMovieDetails={selectedMovieDetails}
-                    detailsLoading={detailsLoading}
-                    selectedMovieId={selectedMovieId}
-                    detailsError={detailsError}
-                /> : null}
+
+            <div onClick={(event) => event.stopPropagation()}>
+                {hasSearched && !loading && !error ?
+                    <MovieList
+                        movies={movies}
+                        onSelectMovie={handleSelectMovie}
+                        selectedMovieDetails={selectedMovieDetails}
+                        detailsLoading={detailsLoading}
+                        selectedMovieId={selectedMovieId}
+                        detailsError={detailsError}
+                    /> : null}
+            </div>
         </main>
     );
 }

@@ -78,14 +78,24 @@ ul {
     margin: 0;
     padding: 0;
     list-style: none;
+    align-items: stretch;
 }
 
 li {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
     padding: 16px;
     background: #1f2937;
     border: 1px solid #374151;
     border-radius: 14px;
     transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+li > div:first-child {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 li:hover {
@@ -94,16 +104,22 @@ li:hover {
 }
 
 li h2 {
+    min-height: 48px;
     margin: 0 0 12px;
     font-size: 20px;
+    line-height: 1.2;
 }
 
 img {
     width: 100%;
-    max-height: 320px;
+    height: 320px;
     object-fit: cover;
     border-radius: 10px;
     margin-bottom: 12px;
+}
+
+li button {
+    margin-top: auto;
 }
 
 p {
@@ -138,4 +154,16 @@ section h2 {
     button {
         width: 100%;
     }
+}
+
+.poster-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 320px;
+    margin-bottom: 12px;
+    border-radius: 10px;
+    background: #111827;
+    color: #9ca3af;
+    text-align: center;
 }

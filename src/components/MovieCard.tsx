@@ -13,7 +13,7 @@ export function MovieCard({ movie, onSelectMovie }: MovieCardProps) {
             {movie.posterUrl !== "N/A" ? (
                 <img src={movie.posterUrl} alt={movie.title} />
             ) : (
-                <p>Постер отсутствует</p>
+                <p className="poster-placeholder">Постер отсутствует</p>
             )}
 
             <p>Год: {movie.year}</p>
