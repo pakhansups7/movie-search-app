@@ -21,7 +21,10 @@ export function MovieCard({ movie, onSelectMovie }: MovieCardProps) {
 
             <button
                 type="button"
-                onClick={() => onSelectMovie(movie.id)}
+                onClick={(event) => {
+                    event.stopPropagation();
+                    onSelectMovie(movie.id);
+                }}
             >
                 Подробнее
             </button>

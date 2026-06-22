@@ -1,4 +1,4 @@
-import { type FormEvent, useState } from "react";
+import { type FormEvent, useEffect, useState } from "react";
 import type { MovieTypeFilter } from "../types/movie";
 
 type SearchFormProps = {
@@ -8,6 +8,15 @@ type SearchFormProps = {
 export function SearchForm({ onSearch }: SearchFormProps) {
     const [title, setTitle] = useState("");
     const [typeFilter, setTypeFilter] = useState<MovieTypeFilter>("all");
+    const [searchHistory, setSearchHistory] = useState<string[]>([]);
+
+    useEffect(() => {
+        const savedHistory = localStorage.getItem("movieSearchHistory");
+
+        if (savedHistory) {
+            setSearchHistory(JSON.parse(savedHistory));
+        }
+    }, []);
 
     function handleSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -17,17 +26,33 @@ export function SearchForm({ onSearch }: SearchFormProps) {
         if (trimmedTitle === "") {
             return;
         }
+
+        const updateHistory = [
+            trimmedTitle,
+            ...searchHistory.filter((item) => item !== trimmedTitle),
+        ].slice(0, 10);
+
+        setSearchHistory(updateHistory);
+        localStorage.setItem("movieSearchHistory", JSON.stringify(updateHistory));
+
         onSearch(trimmedTitle, typeFilter);
         setTitle("");
     }
+
     return (
         <form onSubmit={handleSubmit}>
             <input
                 placeholder="Введите название фильма на английском"
                 type="text"
                 value={title}
-                onChange={(event) => setTitle(event.target.value)} // каждый раз когда пользователь что-то вводит в input, React берет новое значение из input и сохраняет его в state
+                list="movie-search-history"
+                onChange={(event) => setTitle(event.target.value)}
             />
+            <datalist id="movie-search-history">
+                {searchHistory.map((item) => (
+                    <option key={item} value={item} />
+                ))}
+            </datalist>
             <select
                 value={typeFilter}
                 onChange={(event) => setTypeFilter(event.target.value as MovieTypeFilter)}

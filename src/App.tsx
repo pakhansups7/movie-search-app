@@ -71,7 +71,7 @@ function App() {
         <main onClick={handleCloseDetails}>
             <h1>Movie Search App</h1>
             {/*SearchForm сам не делает API-запрос. Он только вызывает onSearch(title). А уже App.tsx решает, что делать с этим title.*/}
-            <div>
+            <div onClick={(event) => event.stopPropagation()}>
                 <SearchForm
                     onSearch={handleSearch}
                 />
@@ -80,7 +80,7 @@ function App() {
             {loading ? <p>Загрузка...</p> : null}
             {error ? <p>{error}</p> : null}
 
-            <div onClick={(event) => event.stopPropagation()}>
+            <div>
                 {hasSearched && !loading && !error ?
                     <MovieList
                         movies={movies}
